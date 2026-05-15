@@ -1,0 +1,21 @@
+# Data lake (file sementara, tidak di-commit)
+data_lake/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.env
+venv/
+.venv/
+
+# Logs
+logs/
+*.log
+
+# Docker volumes
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
