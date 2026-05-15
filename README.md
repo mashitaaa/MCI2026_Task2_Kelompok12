@@ -487,4 +487,11 @@ File JSON di `data_lake` hanya dihapus setelah proses INSERT berhasil sepenuhnya
 
 ---
 
+## 👥 Anggota Kelompok
+
+| Nama | NRP | Kontribusi | Persentase |
+|---|---|---|---|
+| Safa Mashita | 5025241022 | Membuat Apache Airflow DAG, preprocessing data, schema ClickHouse, integrasi pipeline, dan dokumentasi proyek | 50% |
+| Devina Balqis Aurora | 5025241034 | Membuat proses ETL ke ClickHouse, query analitik Metabase, dashboard visualization, dan dokumentasi proyek | 50% |
+
 > **Kelompok 12 — MCI2026**
