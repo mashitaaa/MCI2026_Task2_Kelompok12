@@ -117,7 +117,7 @@ docker compose ps
 
 Pastikan semua service berstatus `healthy` atau `running`.
 
-> 📸 **[Screenshot: Output `docker compose ps` menampilkan semua service running]**
+> <img width="716" height="196" alt="image" src="https://github.com/user-attachments/assets/82252beb-2646-48d0-bc7d-43b359db7ec8" />
 
 **4. Akses layanan**
 
