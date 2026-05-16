@@ -1,4 +1,4 @@
-<img width="429" height="346" alt="image" src="https://github.com/user-attachments/assets/b188f017-3347-41a5-80e2-db40e32de67f" /># 📦 MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
+# 📦 MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
 **Kelompok 12 | Modul 2 & 3**
 
 ---
