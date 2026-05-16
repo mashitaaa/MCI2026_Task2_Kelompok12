@@ -1,4 +1,4 @@
-# 📦 MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
+<img width="429" height="346" alt="image" src="https://github.com/user-attachments/assets/b188f017-3347-41a5-80e2-db40e32de67f" /># 📦 MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
 **Kelompok 12 | Modul 2 & 3**
 
 ---
@@ -117,7 +117,7 @@ docker compose ps
 
 Pastikan semua service berstatus `healthy` atau `running`.
 
-> 📸 **[Screenshot: Output `docker compose ps` menampilkan semua service running]**
+> <img width="477" height="131" alt="image" src="https://github.com/user-attachments/assets/52e5a104-afcc-4162-9d75-e3ed97680d71" />
 
 **4. Akses layanan**
 
@@ -167,8 +167,6 @@ else:
     order_time_category = "night"
 ```
 
-> 📸 **[Screenshot: Airflow UI — task `fetch_orders` berstatus Success]**
-
 ### 1.3 Task 2: `load_to_clickhouse`
 
 File: `dags/load_to_clickhouse.py`
@@ -179,9 +177,7 @@ Task ini bertanggung jawab untuk:
 - Melakukan **TRUNCATE** lalu **INSERT** ke tabel ClickHouse
 - Menghapus file JSON setelah proses berhasil
 
-> 📸 **[Screenshot: Airflow UI — task `load_to_clickhouse` berstatus Success]**
-
-> 📸 **[Screenshot: Airflow UI — tampilan graph/tree view DAG `orders_pipeline` dengan kedua task hijau]**
+> <img width="486" height="354" alt="image" src="https://github.com/user-attachments/assets/b28667af-c04e-4b8c-b26d-8310047a4f30" />
 
 ---
 
@@ -297,11 +293,11 @@ LIMIT 10;
 exit
 ```
 
-> 📸 **[Screenshot: Hasil `SHOW TABLES` dan `DESCRIBE` di ClickHouse CLI]**
+> <img width="218" height="335" alt="image" src="https://github.com/user-attachments/assets/6ab3ce75-e7e7-4583-8a69-831650f94d55" />
 
-> 📸 **[Screenshot: Hasil `COUNT(*)` — menampilkan jumlah baris di kedua tabel]**
+> <img width="943" height="440" alt="image" src="https://github.com/user-attachments/assets/273c1ea4-5cf5-4b23-a759-c3345a55e52f" />
 
-> 📸 **[Screenshot: Preview 10 baris pertama tabel `orders` dengan kolom hasil feature engineering]**
+> <img width="944" height="442" alt="image" src="https://github.com/user-attachments/assets/8aae9b70-ffd5-430f-8f9c-c6538d091777" />
 
 ---
 
@@ -329,9 +325,9 @@ exit
 5. Klik **Save** — Metabase akan melakukan tes koneksi secara otomatis
 6. Jika koneksi berhasil, database `orders_db` akan muncul di daftar sumber data
 
-> 📸 **[Screenshot: Halaman setup awal Metabase — form Add your data dengan konfigurasi ClickHouse]**
+> <img width="500" height="106" alt="image" src="https://github.com/user-attachments/assets/76504c08-d769-43a9-a8bb-8e282dca325b" />
 
-> 📸 **[Screenshot: Konfirmasi koneksi berhasil / database `orders_db` muncul di daftar Sources]**
+> <img width="537" height="115" alt="image" src="https://github.com/user-attachments/assets/2fae79b9-22dc-4c07-a7b7-49d32b94715d" />
 
 **Jika sudah pernah setup sebelumnya**, koneksi baru bisa ditambahkan melalui:
 **Settings (⚙️) → Admin Settings → Databases → Add a database**
@@ -360,7 +356,7 @@ ORDER BY
 
 **Visualisasi:** Bar Chart — sumbu X: `day_name`, sumbu Y: `total_orders`
 
-> 📸 **[Screenshot: Hasil query Q1 di Metabase dengan visualisasi bar chart]**
+> <img width="217" height="189" alt="image" src="https://github.com/user-attachments/assets/cb4eb8fd-9e1e-4e24-89db-3338587e1eee" />
 
 ---
 
@@ -378,7 +374,7 @@ LIMIT 10;
 
 **Visualisasi:** Bar Chart (horizontal) — sumbu Y: `product_name`, sumbu X: `total_ordered`
 
-> 📸 **[Screenshot: Hasil query Q2 di Metabase dengan visualisasi bar chart horizontal]**
+> <img width="232" height="233" alt="image" src="https://github.com/user-attachments/assets/1df4629e-a0f8-4569-8fa9-883dfa96c802" />
 
 ---
 
@@ -395,7 +391,7 @@ ORDER BY total_products_sold DESC;
 
 **Visualisasi:** Pie Chart atau Bar Chart — menunjukkan proporsi penjualan per departemen
 
-> 📸 **[Screenshot: Hasil query Q3 di Metabase dengan visualisasi pie/bar chart]**
+> <img width="727" height="308" alt="image" src="https://github.com/user-attachments/assets/50850418-fea7-4203-af62-d8fc9445bb93" />
 
 ---
 
@@ -416,7 +412,7 @@ ORDER BY reorder_rate_pct DESC;
 
 **Visualisasi:** Bar Chart — sumbu X: `product_category`, sumbu Y: `reorder_rate_pct`
 
-> 📸 **[Screenshot: Hasil query Q4 di Metabase menampilkan reorder rate per departemen]**
+> <img width="429" height="346" alt="image" src="https://github.com/user-attachments/assets/79cc79d3-39a4-41bf-b2c1-3c4f5f13fc39" />
 
 ---
 
@@ -434,7 +430,7 @@ GROUP BY is_first_order;
 
 **Visualisasi:** Pie Chart — proporsi antara `First Order` dan `Repeat Order`
 
-> 📸 **[Screenshot: Hasil query Q5 di Metabase dengan visualisasi pie chart]**
+> <img width="348" height="234" alt="image" src="https://github.com/user-attachments/assets/adf1dee6-b684-46ce-9da0-0108fcd7b7ae" />
 
 ---
 
@@ -455,7 +451,7 @@ LIMIT 7;
 
 **Visualisasi:** Table atau Bar Chart dengan grouping per hari
 
-> 📸 **[Screenshot: Hasil query Q6 di Metabase menampilkan peak hour per hari]**
+> <img width="578" height="233" alt="image" src="https://github.com/user-attachments/assets/f67e9e6d-1841-4d49-93a4-c9b8dbf334ee" />
 
 ---
 
@@ -482,9 +478,7 @@ Atur posisi dan ukuran setiap visualisasi dengan cara drag-and-drop agar dashboa
 
 4. Setelah selesai menyusun, klik **Save**
 
-> 📸 **[Screenshot: Tampilan lengkap Dashboard Metabase dengan semua 6 visualisasi tersusun rapi]**
-
-> 📸 **[Screenshot: Detail salah satu card dashboard — misalnya Q2 Top 10 Produk Terlaris]**
+> <img width="290" height="470" alt="image" src="https://github.com/user-attachments/assets/21c2374f-48dc-46c7-9846-24698131a611" />
 
 ---
 
