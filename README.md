@@ -455,6 +455,174 @@ LIMIT 7;
 
 ---
 
+#### Question 7 — Rata-rata posisi cart per departemen
+
+Mengukur seberapa "terencana" pembelian per department berdasarkan rata-rata urutan produk yang ditambahkan ke keranjang. Department dengan posisi rendah berarti produknya selalu ditambahkan pertama kali (sudah direncanakan), sedangkan posisi tinggi berarti lebih bersifat impulsif.
+
+```sql
+SELECT
+    department,
+    COUNT(*) AS total_items,
+    ROUND(AVG(add_to_cart_order), 2) AS avg_cart_position
+FROM orders_db.order_products
+GROUP BY department
+ORDER BY avg_cart_position ASC;
+```
+
+**Visualisasi:** Bar Chart Sumbu Y: `department`, Sumbu X: `avg_cart_position`
+
+> <img width="895" height="346" alt="image" src="https://github.com/user-attachments/assets/038a7806-f9dc-401c-b256-3448005f55f3" />
+
+---
+
+### Question 8 — Produk yang Paling Sering Ditambah Pertama ke Cart
+
+Menampilkan produk yang paling konsisten ditambahkan sebagai item pertama dalam sesi belanja (add_to_cart_order = 1). Produk ini merupakan "anchor product" (titik awal yang memicu sesi belanja)
+
+```sql
+SELECT
+    product_name,
+    department,
+    COUNT(*) AS times_added_first
+FROM orders_db.order_products
+WHERE add_to_cart_order = 1
+GROUP BY product_name, department
+ORDER BY times_added_first DESC
+LIMIT 10;
+```
+
+**Visualisasi:** Bar Chart Sumbu X: `product_name`, Sumbu Y: `times_added_first`
+
+> <img width="889" height="510" alt="image" src="https://github.com/user-attachments/assets/be49eebf-9e82-4963-906b-484a6c2e804c" />
+
+---
+
+### Question 9 — Rata-Rata Basket Size per Hari dalam Seminggu
+
+Menghitung rata-rata jumlah item yang dibeli per order berdasarkan hari pemesanan. Memberikan gambaran apakah ada hari tertentu di mana pelanggan cenderung berbelanja lebih banyak item sekaligus.
+
+```sql
+SELECT
+    o.order_dow,
+    o.order_day_name AS day_name,
+    COUNT(DISTINCT o.order_id) AS total_orders,
+    COUNT(op.product_id) AS total_items,
+    ROUND(COUNT(op.product_id) /
+          COUNT(DISTINCT o.order_id), 2) AS avg_basket_size
+FROM orders_db.orders o
+JOIN orders_db.order_products op ON o.order_id = op.order_id
+GROUP BY o.order_dow, o.order_day_name
+ORDER BY o.order_dow;
+```
+
+**Visualisasi:** Bar Chart Sumbu X: `product_name`, Sumbu Y: `times_added_first`
+
+> <img width="1113" height="586" alt="image" src="https://github.com/user-attachments/assets/581eb0e8-08d1-4f55-a763-b685625d1f8e" />
+
+
+---
+
+### Question 10 — Rata-Rata Basket Size per Time Category
+
+Membandingkan rata-rata jumlah item dalam satu order berdasarkan kategori waktu belanja (pagi, siang, sore, malam). Menunjukkan apakah waktu belanja memengaruhi banyaknya item yang dibeli.
+
+```sql
+SELECT
+    o.order_time_category AS time_category,
+    ROUND(COUNT(op.product_id) /
+          COUNT(DISTINCT o.order_id), 2) AS avg_basket_size
+FROM orders_db.orders o
+JOIN orders_db.order_products op ON o.order_id = op.order_id
+GROUP BY o.order_time_category
+ORDER BY avg_basket_size DESC;
+```
+
+**Visualisasi:** Line Chart - Sumbu X: `time_category`, Sumbu Y: `avg_basket_size`
+
+> <img width="1327" height="487" alt="image" src="https://github.com/user-attachments/assets/d9155acb-17b1-475a-8b32-63ad54b93365" />
+
+
+---
+
+### Question 11 — First Order vs Repeat Order: Basket Size & Reorder Rate
+
+Membandingkan karakteristik belanja antara order pertama kali pelanggan dengan order lanjutan. Memberikan gambaran apakah pelanggan baru berbelanja lebih sedikit atau lebih banyak dibanding pelanggan yang sudah berulang
+
+```sql
+SELECT
+    CASE WHEN o.is_first_order = 1
+        THEN 'First Order'
+        ELSE 'Repeat Order'
+    END AS order_type,
+    COUNT(DISTINCT o.order_id) AS total_orders,
+    ROUND(COUNT(op.product_id) /
+          COUNT(DISTINCT o.order_id), 2) AS avg_basket_size,
+    ROUND(SUM(op.is_reordered) * 100.0 /
+          COUNT(op.product_id), 2) AS reorder_rate_pct
+FROM orders_db.orders o
+JOIN orders_db.order_products op ON o.order_id = op.order_id
+GROUP BY o.is_first_order;
+```
+
+**Visualisasi:** Row Chart - Sumbu X: `Number`, Sumbu Y: `avg_basket_size` dan `reorder_rate_pct`
+
+> <img width="745" height="475" alt="image" src="https://github.com/user-attachments/assets/85554148-b539-4bc5-8bb7-1e5f1fbea5aa" />
+
+
+
+---
+
+### Question 12 — Funnel Loyalitas Pelanggan
+
+Menampilkan tahapan loyalitas pelanggan mulai dari semua order, lalu disaring ke repeat order, hingga yang benar-benar rutin membeli produk yang sama.
+
+```sql
+SELECT funnel_step, total
+FROM (
+    SELECT 1 AS sort_order, 'Total Orders' AS funnel_step,
+        COUNT(DISTINCT o.order_id) AS total
+    FROM orders_db.orders o
+
+    UNION ALL
+
+    SELECT 2, 'Repeat Orders',
+        COUNT(DISTINCT o.order_id)
+    FROM orders_db.orders o
+    WHERE o.is_first_order = 0
+
+    UNION ALL
+
+    SELECT 3, 'Repeat + Reordered Item',
+        COUNT(DISTINCT o.order_id)
+    FROM orders_db.orders o
+    JOIN orders_db.order_products op ON o.order_id = op.order_id
+    WHERE o.is_first_order = 0
+      AND op.is_reordered = 1
+
+    UNION ALL
+
+    SELECT 4, 'High Loyalty (reorder >50%)',
+        COUNT(DISTINCT sub.order_id)
+    FROM (
+        SELECT op.order_id,
+            ROUND(SUM(op.is_reordered) * 100.0 / COUNT(*), 0) AS rr
+        FROM orders_db.order_products op
+        JOIN orders_db.orders o ON op.order_id = o.order_id
+        WHERE o.is_first_order = 0
+        GROUP BY op.order_id
+        HAVING rr > 50
+    ) sub
+) result
+ORDER BY sort_order;
+```
+
+**Visualisasi:** Funnel Chart — Dimension: `funnel_step`, Measure: `total`, urutkan berdasarkan `sort_order`
+
+> <img width="1056" height="516" alt="image" src="https://github.com/user-attachments/assets/ec4a19ef-c053-4688-8693-fdf6bac17a56" />
+
+
+---
+
 ## 🖥️ Langkah 4 — Membangun Dashboard di Metabase
 
 ### 4.1 Membuat Dashboard
