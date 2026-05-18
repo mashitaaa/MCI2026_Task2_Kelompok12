@@ -471,7 +471,7 @@ ORDER BY avg_cart_position ASC;
 
 **Visualisasi:** Bar Chart Sumbu Y: `department`, Sumbu X: `avg_cart_position`
 
-> <img height="300" alt="image" src="https://github.com/user-attachments/assets/038a7806-f9dc-401c-b256-3448005f55f3" />
+> <img height="280" alt="image" src="https://github.com/user-attachments/assets/038a7806-f9dc-401c-b256-3448005f55f3" />
 
 ---
 
@@ -566,8 +566,7 @@ GROUP BY o.is_first_order;
 
 **Visualisasi:** Row Chart - Sumbu X: `Number`, Sumbu Y: `avg_basket_size` dan `reorder_rate_pct`
 
-> <img width="745" height="475" alt="image" src="https://github.com/user-attachments/assets/85554148-b539-4bc5-8bb7-1e5f1fbea5aa" />
-
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/85554148-b539-4bc5-8bb7-1e5f1fbea5aa" />
 
 
 ---
@@ -618,7 +617,32 @@ ORDER BY sort_order;
 
 **Visualisasi:** Funnel Chart — Dimension: `funnel_step`, Measure: `total`, urutkan berdasarkan `sort_order`
 
-> <img width="1056" height="516" alt="image" src="https://github.com/user-attachments/assets/ec4a19ef-c053-4688-8693-fdf6bac17a56" />
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/ec4a19ef-c053-4688-8693-fdf6bac17a56" />
+
+---
+
+### Question 13 - Distribusi interval belanja
+
+seberapa sering pelanggan kembali secara distribusi.
+
+```sql
+SELECT
+    CASE
+        WHEN days_since_prior_order = 0    THEN 'First order'
+        WHEN days_since_prior_order <= 7   THEN '1-7 hari'
+        WHEN days_since_prior_order <= 14  THEN '8-14 hari'
+        WHEN days_since_prior_order <= 30  THEN '15-30 hari'
+        ELSE '30+ hari'
+    END AS interval_bucket,
+    COUNT(*) AS total_orders
+FROM orders_db.orders
+GROUP BY interval_bucket
+ORDER BY MIN(days_since_prior_order);
+```
+
+**Visualisasi:** Pie chart
+
+> <img height="230" alt="image" src="https://github.com/user-attachments/assets/c63e2594-7d55-4903-8132-6f23b8e77eb1" />
 
 
 ---
