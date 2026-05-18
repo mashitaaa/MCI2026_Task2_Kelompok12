@@ -471,7 +471,8 @@ ORDER BY avg_cart_position ASC;
 
 **Visualisasi:** Bar Chart Sumbu Y: `department`, Sumbu X: `avg_cart_position`
 
-> <img height="280" alt="image" src="https://github.com/user-attachments/assets/038a7806-f9dc-401c-b256-3448005f55f3" />
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/cc913992-b968-4143-a196-24b64d90b95a" />
+
 
 ---
 
@@ -539,7 +540,7 @@ ORDER BY avg_basket_size DESC;
 
 **Visualisasi:** Line Chart - Sumbu X: `time_category`, Sumbu Y: `avg_basket_size`
 
-> <img height="300" alt="image" src="https://github.com/user-attachments/assets/d9155acb-17b1-475a-8b32-63ad54b93365" />
+> <img height="250" alt="image" src="https://github.com/user-attachments/assets/d9155acb-17b1-475a-8b32-63ad54b93365" />
 
 
 ---
@@ -642,10 +643,51 @@ ORDER BY MIN(days_since_prior_order);
 
 **Visualisasi:** Pie chart
 
-> <img height="230" alt="image" src="https://github.com/user-attachments/assets/c63e2594-7d55-4903-8132-6f23b8e77eb1" />
-
+> <img height="280" alt="image" src="https://github.com/user-attachments/assets/d2717ddf-bb78-4764-85fa-2b44953ec620" />
 
 ---
+
+### Question 14 - Department mana yang paling banyak dibeli saat first order
+
+Melihat apa yang dibeli pelanggan baru untuk memahami entry point (produk/department apa yang pertama kali menarik pelanggan masuk berbelanja).
+
+```sql
+SELECT
+    op.department,
+    COUNT(*) AS total_items
+FROM orders_db.orders o
+JOIN orders_db.order_products op ON o.order_id = op.order_id
+WHERE o.is_first_order = 1
+GROUP BY op.department
+ORDER BY total_items DESC;
+```
+**Visualisasi:** Pie Chart — proporsi setiap department dari total 81 item yang dibeli pada first order.
+
+> <img height="280" alt="image" src="https://github.com/user-attachments/assets/1d57e5db-0d0b-40ce-9e99-b3c5eaa17b42" />
+
+---
+
+### Question 15 - Profil Setiap Department: Volume vs Loyalitas
+
+Menampilkan profil lengkap setiap department dalam satu tabel — mencakup total item terjual, reorder rate, jumlah order yang mengandung department tersebut, dan jumlah produk unik. Memudahkan perbandingan antar department secara menyeluruh untuk mengidentifikasi mana yang tinggi volume sekaligus loyal, dan mana yang hanya ramai tapi tidak loyal.
+
+```sql
+SELECT
+    ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC) AS dept_rank,
+    department,
+    COUNT(*) AS total_items,
+    ROUND(SUM(is_reordered) * 100.0 / COUNT(*), 1) AS reorder_rate_pct,
+    COUNT(DISTINCT order_id) AS total_orders,
+    COUNT(DISTINCT product_id) AS unique_products
+FROM orders_db.order_products
+GROUP BY department
+ORDER BY total_items DESC;
+```
+
+**Visualisasi:** Tabel
+
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/9f019ea6-d0d0-4a2c-b4f0-43abf635a553" />
+
 
 ## 🖥️ Langkah 4 — Membangun Dashboard di Metabase
 
