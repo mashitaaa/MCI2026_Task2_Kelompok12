@@ -1,9 +1,9 @@
-# 📦 MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
+# MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
 **Kelompok 12 | Modul 2 & 3**
 
 ---
 
-## 📋 Daftar Isi
+## Daftar Isi
 
 1. [Gambaran Umum](#-gambaran-umum)
 2. [Arsitektur Pipeline](#-arsitektur-pipeline)
@@ -17,7 +17,7 @@
 
 ---
 
-## 🔍 Gambaran Umum
+## Gambaran Umum
 
 Proyek ini merupakan implementasi **Pipeline Orchestration & Data Visualization** menggunakan stack berikut:
 
@@ -33,7 +33,7 @@ Dataset yang digunakan berformat Instacart-style orders, berisi data transaksi b
 
 ---
 
-## 🏗️ Arsitektur Pipeline
+## Arsitektur Pipeline
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -68,7 +68,7 @@ Secara singkat, pipeline berjalan setiap **10 menit** secara otomatis:
 
 ---
 
-## 📂 Struktur Repository
+## Struktur Repository
 
 ```
 MCI2026_Task2_Kelompok12/
@@ -89,7 +89,7 @@ MCI2026_Task2_Kelompok12/
 
 ---
 
-## ⚙️ Prasyarat & Instalasi
+## Prasyarat & Instalasi
 
 ### Prasyarat
 
@@ -129,7 +129,7 @@ Pastikan semua service berstatus `healthy` atau `running`.
 
 ---
 
-## 🌀 Langkah 1 — Apache Airflow DAG
+## Langkah 1 — Apache Airflow DAG
 
 ### 1.1 Struktur DAG
 
@@ -181,7 +181,7 @@ Task ini bertanggung jawab untuk:
 
 ---
 
-## 🗄️ Langkah 2 — Manajemen Data di ClickHouse
+## Langkah 2 — Manajemen Data di ClickHouse
 
 ### 2.1 Membuat Database & Tabel
 
@@ -241,7 +241,7 @@ Setelah pipeline berjalan setidaknya satu kali, lakukan validasi langsung melalu
 docker exec -it mci2026_task2_kelompok12-clickhouse-server-1 clickhouse-client --user admin --password rahasia
 ```
 
-> ⚠️ Nama container bisa berbeda tergantung nama folder project. Jika gagal, cek nama container yang benar terlebih dahulu dengan `docker compose ps`.
+> Nama container bisa berbeda tergantung nama folder project. Jika gagal, cek nama container yang benar terlebih dahulu dengan `docker compose ps`.
 
 **Cek database yang tersedia:**
 ```sql
@@ -301,7 +301,7 @@ exit
 
 ---
 
-## 📊 Langkah 3 — Visualisasi & Questions di Metabase
+## Langkah 3 — Visualisasi & Questions di Metabase
 
 ### 3.1 Koneksi Metabase ke ClickHouse
 
@@ -689,7 +689,7 @@ ORDER BY total_items DESC;
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/9f019ea6-d0d0-4a2c-b4f0-43abf635a553" />
 
 
-## 🖥️ Langkah 4 — Membangun Dashboard di Metabase
+## Langkah 4 — Membangun Dashboard di Metabase
 
 ### 4.1 Membuat Dashboard
 
@@ -701,22 +701,13 @@ ORDER BY total_items DESC;
 
 Atur posisi dan ukuran setiap visualisasi dengan cara drag-and-drop agar dashboard terlihat informatif dan rapi. Berikut susunan yang direkomendasikan:
 
-| Baris | Card | Ukuran |
-|---|---|---|
-| 1 | Q5: First vs Repeat Order (Pie) | Kecil |
-| 1 | Q1: Total Order per Hari (Bar) | Besar |
-| 2 | Q3: Top Department (Bar/Pie) | Sedang |
-| 2 | Q4: Reorder Rate per Department (Bar) | Sedang |
-| 3 | Q2: Top 10 Produk Terlaris (Bar Horizontal) | Full width |
-| 4 | Q6: Peak Hour per Hari (Table/Bar) | Full width |
-
 4. Setelah selesai menyusun, klik **Save**
 
 > <img width="290" height="470" alt="image" src="https://github.com/user-attachments/assets/21c2374f-48dc-46c7-9846-24698131a611" />
 
 ---
 
-## 🔧 Kendala & Solusi
+## Kendala & Solusi
 
 Selama pengerjaan project ini, terdapat kendala utama yang ditemui pada bagian **Load to ClickHouse**. Berikut dokumentasinya:
 
@@ -777,7 +768,7 @@ File JSON di `data_lake` hanya dihapus setelah proses INSERT berhasil sepenuhnya
 
 ---
 
-## 👥 Anggota Kelompok
+## Anggota Kelompok
 
 | Nama | NRP | Kontribusi | Persentase |
 |---|---|---|---|
