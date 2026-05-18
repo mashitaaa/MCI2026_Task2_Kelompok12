@@ -34,17 +34,17 @@ Proyek ini merupakan implementasi **Pipeline Orchestration & Data Visualization*
 ## Arsitektur Pipeline
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│                    Apache Airflow DAG                    │
-│                                                         │
+┌────────────────────────────────────────────────────────┐
+│                    Apache Airflow DAG                  │
+│                                                        │
 │   ┌─────────────┐           ┌──────────────────────┐   │
 │   │ fetch_orders│ ────────► │ load_to_clickhouse   │   │
 │   │  (Task 1)   │           │      (Task 2)        │   │
 │   └─────────────┘           └──────────────────────┘   │
-│         │                            │                  │
-│    Fetch API &                  Read JSON &             │
-│    Preprocessing               Insert ke ClickHouse     │
-└─────────────────────────────────────────────────────────┘
+│         │                            │                 │
+│    Fetch API &                  Read JSON &            │
+│    Preprocessing               Insert ke ClickHouse    │
+└────────────────────────────────────────────────────────┘
          │                            │
          ▼                            ▼
    ┌──────────┐               ┌──────────────┐
@@ -209,7 +209,7 @@ CREATE TABLE IF NOT EXISTS orders_db.orders (
 ORDER BY (user_id, order_id);
 ```
 
-**Tabel `order_products`** — menyimpan detail produk per transaksi (hasil flatten dari nested array):
+**Tabel `order_products`** menyimpan detail produk per transaksi (hasil flatten dari nested array):
 ```sql
 CREATE TABLE IF NOT EXISTS orders_db.order_products (
     order_id          UInt32,
@@ -328,7 +328,7 @@ exit
 > <img width="537" height="115" alt="image" src="https://github.com/user-attachments/assets/2fae79b9-22dc-4c07-a7b7-49d32b94715d" />
 
 **Jika sudah pernah setup sebelumnya**, koneksi baru bisa ditambahkan melalui:
-**Settings (⚙️) → Admin Settings → Databases → Add a database**
+**Settings → Admin Settings → Databases → Add a database**
 
 ### 3.2 Membuat Questions (Queries)
 
@@ -336,7 +336,7 @@ Setiap question dibuat melalui menu **New → Question → Native Query** di Met
 
 ---
 
-#### Question 1 — Total Order per Hari
+#### Question 1: Total Order per Hari
 
 Menampilkan distribusi total order berdasarkan hari dalam seminggu.
 
@@ -352,13 +352,13 @@ ORDER BY
     o.order_dow;
 ```
 
-**Visualisasi:** Bar Chart — sumbu X: `day_name`, sumbu Y: `total_orders`
+**Visualisasi:** Bar Chart dengan sumbu X: `day_name` dan sumbu Y: `total_orders`
 
 > <img width="217" height="189" alt="image" src="https://github.com/user-attachments/assets/cb4eb8fd-9e1e-4e24-89db-3338587e1eee" />
 
 ---
 
-#### Question 2 — Top 10 Produk Terlaris
+#### Question 2: Top 10 Produk Terlaris
 
 Menampilkan 10 produk yang paling banyak dipesan beserta kategori departemennya.
 
@@ -370,13 +370,13 @@ ORDER BY total_ordered DESC
 LIMIT 10;
 ```
 
-**Visualisasi:** Bar Chart (horizontal) — sumbu Y: `product_name`, sumbu X: `total_ordered`
+**Visualisasi:** Bar Chart (horizontal) dengan sumbu Y: `product_name` dan sumbu X: `total_ordered`
 
 > <img width="232" height="233" alt="image" src="https://github.com/user-attachments/assets/1df4629e-a0f8-4569-8fa9-883dfa96c802" />
 
 ---
 
-#### Question 3 — Top Department
+#### Question 3: Top Department
 
 Menampilkan kategori departemen yang paling banyak menghasilkan penjualan produk.
 
@@ -387,13 +387,13 @@ GROUP BY department
 ORDER BY total_products_sold DESC;
 ```
 
-**Visualisasi:** Pie Chart atau Bar Chart — menunjukkan proporsi penjualan per departemen
+**Visualisasi:** Pie Chart atau Bar Chart menunjukkan proporsi penjualan per departemen
 
 > <img width="727" height="308" alt="image" src="https://github.com/user-attachments/assets/50850418-fea7-4203-af62-d8fc9445bb93" />
 
 ---
 
-#### Question 4 — Reorder Rate per Department
+#### Question 4: Reorder Rate per Department
 
 Mengukur tingkat loyalitas pelanggan per kategori produk berdasarkan persentase produk yang dipesan ulang.
 
@@ -408,13 +408,13 @@ GROUP BY department
 ORDER BY reorder_rate_pct DESC;
 ```
 
-**Visualisasi:** Bar Chart — sumbu X: `product_category`, sumbu Y: `reorder_rate_pct`
+**Visualisasi:** Bar Chart dengan sumbu X: `product_category` dan sumbu Y: `reorder_rate_pct`
 
 > <img width="429" height="346" alt="image" src="https://github.com/user-attachments/assets/79cc79d3-39a4-41bf-b2c1-3c4f5f13fc39" />
 
 ---
 
-#### Question 5 — First Order vs Repeat Order
+#### Question 5: First Order vs Repeat Order
 
 Membandingkan jumlah pelanggan baru (first order) dengan pelanggan yang sudah pernah berbelanja sebelumnya (repeat order).
 
@@ -426,13 +426,13 @@ FROM orders_db.orders
 GROUP BY is_first_order;
 ```
 
-**Visualisasi:** Pie Chart — proporsi antara `First Order` dan `Repeat Order`
+**Visualisasi:** Pie Chart dengan proporsi antara `First Order` dan `Repeat Order`
 
 > <img width="348" height="234" alt="image" src="https://github.com/user-attachments/assets/adf1dee6-b684-46ce-9da0-0108fcd7b7ae" />
 
 ---
 
-#### Question 6 — Peak Hour per Hari
+#### Question 6: Peak Hour per Hari
 
 Menampilkan jam tersibuk di setiap hari dalam seminggu.
 
@@ -453,7 +453,7 @@ LIMIT 7;
 
 ---
 
-#### Question 7 — Rata-rata posisi cart per departemen
+#### Question 7: Rata-rata posisi cart per departemen
 
 Mengukur seberapa "terencana" pembelian per department berdasarkan rata-rata urutan produk yang ditambahkan ke keranjang. Department dengan posisi rendah berarti produknya selalu ditambahkan pertama kali (sudah direncanakan), sedangkan posisi tinggi berarti lebih bersifat impulsif.
 
@@ -467,14 +467,14 @@ GROUP BY department
 ORDER BY avg_cart_position ASC;
 ```
 
-**Visualisasi:** Bar Chart Sumbu Y: `department`, Sumbu X: `avg_cart_position`
+**Visualisasi:** Bar Chart dengan Sumbu Y: `department` dan Sumbu X: `avg_cart_position`
 
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/cc913992-b968-4143-a196-24b64d90b95a" />
 
 
 ---
 
-### Question 8 — Produk yang Paling Sering Ditambah Pertama ke Cart
+### Question 8: Produk yang Paling Sering Ditambah Pertama ke Cart
 
 Menampilkan produk yang paling konsisten ditambahkan sebagai item pertama dalam sesi belanja (add_to_cart_order = 1). Produk ini merupakan "anchor product" (titik awal yang memicu sesi belanja)
 
@@ -490,13 +490,13 @@ ORDER BY times_added_first DESC
 LIMIT 10;
 ```
 
-**Visualisasi:** Bar Chart Sumbu X: `product_name`, Sumbu Y: `times_added_first`
+**Visualisasi:** Bar Chart dengan Sumbu X: `product_name` dan Sumbu Y: `times_added_first`
 
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/be49eebf-9e82-4963-906b-484a6c2e804c" />
 
 ---
 
-### Question 9 — Rata-Rata Basket Size per Hari dalam Seminggu
+### Question 9: Rata-Rata Basket Size per Hari dalam Seminggu
 
 Menghitung rata-rata jumlah item yang dibeli per order berdasarkan hari pemesanan. Memberikan gambaran apakah ada hari tertentu di mana pelanggan cenderung berbelanja lebih banyak item sekaligus.
 
@@ -514,14 +514,14 @@ GROUP BY o.order_dow, o.order_day_name
 ORDER BY o.order_dow;
 ```
 
-**Visualisasi:** Bar Chart Sumbu X: `product_name`, Sumbu Y: `times_added_first`
+**Visualisasi:** Bar Chart dengan Sumbu X: `product_name` dan Sumbu Y: `times_added_first`
 
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/581eb0e8-08d1-4f55-a763-b685625d1f8e" />
 
 
 ---
 
-### Question 10 — Rata-Rata Basket Size per Time Category
+### Question 10: Rata-Rata Basket Size per Time Category
 
 Membandingkan rata-rata jumlah item dalam satu order berdasarkan kategori waktu belanja (pagi, siang, sore, malam). Menunjukkan apakah waktu belanja memengaruhi banyaknya item yang dibeli.
 
@@ -536,14 +536,14 @@ GROUP BY o.order_time_category
 ORDER BY avg_basket_size DESC;
 ```
 
-**Visualisasi:** Line Chart - Sumbu X: `time_category`, Sumbu Y: `avg_basket_size`
+**Visualisasi:** Line Chart dengan Sumbu X: `time_category` dan Sumbu Y: `avg_basket_size`
 
 > <img height="250" alt="image" src="https://github.com/user-attachments/assets/d9155acb-17b1-475a-8b32-63ad54b93365" />
 
 
 ---
 
-### Question 11 — First Order vs Repeat Order: Basket Size & Reorder Rate
+### Question 11: First Order vs Repeat Order: Basket Size & Reorder Rate
 
 Membandingkan karakteristik belanja antara order pertama kali pelanggan dengan order lanjutan. Memberikan gambaran apakah pelanggan baru berbelanja lebih sedikit atau lebih banyak dibanding pelanggan yang sudah berulang
 
@@ -563,14 +563,14 @@ JOIN orders_db.order_products op ON o.order_id = op.order_id
 GROUP BY o.is_first_order;
 ```
 
-**Visualisasi:** Row Chart - Sumbu X: `Number`, Sumbu Y: `avg_basket_size` dan `reorder_rate_pct`
+**Visualisasi:** Row Chart dengan Sumbu X: `Number` dan Sumbu Y: `avg_basket_size` & `reorder_rate_pct`
 
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/85554148-b539-4bc5-8bb7-1e5f1fbea5aa" />
 
 
 ---
 
-### Question 12 — Funnel Loyalitas Pelanggan
+### Question 12: Funnel Loyalitas Pelanggan
 
 Menampilkan tahapan loyalitas pelanggan mulai dari semua order, lalu disaring ke repeat order, hingga yang benar-benar rutin membeli produk yang sama.
 
@@ -614,13 +614,13 @@ FROM (
 ORDER BY sort_order;
 ```
 
-**Visualisasi:** Funnel Chart — Dimension: `funnel_step`, Measure: `total`, urutkan berdasarkan `sort_order`
+**Visualisasi:** Funnel Chart dengan Dimension: `funnel_step`, Measure: `total`, urutkan berdasarkan `sort_order`
 
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/ec4a19ef-c053-4688-8693-fdf6bac17a56" />
 
 ---
 
-### Question 13 - Distribusi interval belanja
+### Question 13: Distribusi interval belanja
 
 seberapa sering pelanggan kembali secara distribusi.
 
@@ -645,7 +645,7 @@ ORDER BY MIN(days_since_prior_order);
 
 ---
 
-### Question 14 - Department mana yang paling banyak dibeli saat first order
+### Question 14: Department mana yang paling banyak dibeli saat first order
 
 Melihat apa yang dibeli pelanggan baru untuk memahami entry point (produk/department apa yang pertama kali menarik pelanggan masuk berbelanja).
 
@@ -659,15 +659,15 @@ WHERE o.is_first_order = 1
 GROUP BY op.department
 ORDER BY total_items DESC;
 ```
-**Visualisasi:** Pie Chart — proporsi setiap department dari total 81 item yang dibeli pada first order.
+**Visualisasi:** Pie Chart dengan proporsi setiap department dari total 81 item yang dibeli pada first order.
 
 > <img height="280" alt="image" src="https://github.com/user-attachments/assets/1d57e5db-0d0b-40ce-9e99-b3c5eaa17b42" />
 
 ---
 
-### Question 15 - Profil Setiap Department: Volume vs Loyalitas
+### Question 15: Profil Setiap Department, Volume vs Loyalitas
 
-Menampilkan profil lengkap setiap department dalam satu tabel — mencakup total item terjual, reorder rate, jumlah order yang mengandung department tersebut, dan jumlah produk unik. Memudahkan perbandingan antar department secara menyeluruh untuk mengidentifikasi mana yang tinggi volume sekaligus loyal, dan mana yang hanya ramai tapi tidak loyal.
+Menampilkan profil lengkap setiap department dalam satu tabel, mencakup total item terjual, reorder rate, jumlah order yang mengandung department tersebut, dan jumlah produk unik. Memudahkan perbandingan antar department secara menyeluruh untuk mengidentifikasi mana yang tinggi volume sekaligus loyal, dan mana yang hanya ramai tapi tidak loyal.
 
 ```sql
 SELECT
