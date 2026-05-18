@@ -5,15 +5,15 @@
 
 ## Daftar Isi
 
-1. [Gambaran Umum](#-gambaran-umum)
-2. [Arsitektur Pipeline](#-arsitektur-pipeline)
-3. [Struktur Repository](#-struktur-repository)
-4. [Prasyarat & Instalasi](#-prasyarat--instalasi)
-5. [Langkah 1 — Apache Airflow DAG](#-langkah-1--apache-airflow-dag)
-6. [Langkah 2 — Manajemen Data di ClickHouse](#-langkah-2--manajemen-data-di-clickhouse)
-7. [Langkah 3 — Visualisasi & Questions di Metabase](#-langkah-3--visualisasi--questions-di-metabase)
-8. [Langkah 4 — Membangun Dashboard di Metabase](#-langkah-4--membangun-dashboard-di-metabase)
-9. [Kendala & Solusi](#-kendala--solusi)
+1. [Gambaran Umum](#gambaran-umum)
+2. [Arsitektur Pipeline](#arsitektur-pipeline)
+3. [Struktur Repository](#struktur-repository)
+4. [Prasyarat & Instalasi](#prasyarat--instalasi)
+5. [Langkah 1 — Apache Airflow DAG](#langkah-1--apache-airflow-dag)
+6. [Langkah 2 — Manajemen Data di ClickHouse](#langkah-2--manajemen-data-di-clickhouse)
+7. [Langkah 3 — Visualisasi & Questions di Metabase](#langkah-3--visualisasi--questions-di-metabase)
+8. [Langkah 4 — Membangun Dashboard di Metabase](#langkah-4--membangun-dashboard-di-metabase)
+9. [Kendala & Solusi](#kendala--solusi)
 
 ---
 
