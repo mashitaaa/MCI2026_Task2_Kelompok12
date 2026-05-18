@@ -471,7 +471,7 @@ ORDER BY avg_cart_position ASC;
 
 **Visualisasi:** Bar Chart Sumbu Y: `department`, Sumbu X: `avg_cart_position`
 
-> <img width="895" height="346" alt="image" src="https://github.com/user-attachments/assets/038a7806-f9dc-401c-b256-3448005f55f3" />
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/038a7806-f9dc-401c-b256-3448005f55f3" />
 
 ---
 
@@ -493,7 +493,7 @@ LIMIT 10;
 
 **Visualisasi:** Bar Chart Sumbu X: `product_name`, Sumbu Y: `times_added_first`
 
-> <img width="889" height="510" alt="image" src="https://github.com/user-attachments/assets/be49eebf-9e82-4963-906b-484a6c2e804c" />
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/be49eebf-9e82-4963-906b-484a6c2e804c" />
 
 ---
 
@@ -517,7 +517,7 @@ ORDER BY o.order_dow;
 
 **Visualisasi:** Bar Chart Sumbu X: `product_name`, Sumbu Y: `times_added_first`
 
-> <img width="1113" height="586" alt="image" src="https://github.com/user-attachments/assets/581eb0e8-08d1-4f55-a763-b685625d1f8e" />
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/581eb0e8-08d1-4f55-a763-b685625d1f8e" />
 
 
 ---
@@ -539,7 +539,7 @@ ORDER BY avg_basket_size DESC;
 
 **Visualisasi:** Line Chart - Sumbu X: `time_category`, Sumbu Y: `avg_basket_size`
 
-> <img width="1327" height="487" alt="image" src="https://github.com/user-attachments/assets/d9155acb-17b1-475a-8b32-63ad54b93365" />
+> <img height="300" alt="image" src="https://github.com/user-attachments/assets/d9155acb-17b1-475a-8b32-63ad54b93365" />
 
 
 ---
