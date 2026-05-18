@@ -702,6 +702,7 @@ Atur posisi dan ukuran setiap visualisasi dengan cara drag-and-drop agar dashboa
 4. Setelah selesai menyusun, klik **Save**
 
 > <img width="290" height="470" alt="image" src="https://github.com/user-attachments/assets/21c2374f-48dc-46c7-9846-24698131a611" />
+> <img width="435" height="451" alt="image" src="https://github.com/user-attachments/assets/74f9ca22-5dd0-4756-8df6-c60207cea05f" />
 
 ---
 
