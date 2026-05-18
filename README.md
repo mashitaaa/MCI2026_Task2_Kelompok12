@@ -1,4 +1,4 @@
-# MCI2026 Task 2 — Pipeline Orchestration & Data Visualization
+# MCI2026 Task 2: Pipeline Orchestration & Data Visualization
 **Kelompok 12 | Modul 2 & 3**
 
 ---
@@ -9,10 +9,10 @@
 2. [Arsitektur Pipeline](#arsitektur-pipeline)
 3. [Struktur Repository](#struktur-repository)
 4. [Prasyarat & Instalasi](#prasyarat--instalasi)
-5. [Langkah 1 — Apache Airflow DAG](#langkah-1--apache-airflow-dag)
-6. [Langkah 2 — Manajemen Data di ClickHouse](#langkah-2--manajemen-data-di-clickhouse)
-7. [Langkah 3 — Visualisasi & Questions di Metabase](#langkah-3--visualisasi--questions-di-metabase)
-8. [Langkah 4 — Membangun Dashboard di Metabase](#langkah-4--membangun-dashboard-di-metabase)
+5. [Langkah 1: Apache Airflow DAG](#langkah-1--apache-airflow-dag)
+6. [Langkah 2: Manajemen Data di ClickHouse](#langkah-2--manajemen-data-di-clickhouse)
+7. [Langkah 3: Visualisasi & Questions di Metabase](#langkah-3--visualisasi--questions-di-metabase)
+8. [Langkah 4: Membangun Dashboard di Metabase](#langkah-4--membangun-dashboard-di-metabase)
 9. [Kendala & Solusi](#kendala--solusi)
 
 ---
@@ -127,7 +127,7 @@ Pastikan semua service berstatus `healthy` atau `running`.
 
 ---
 
-## Langkah 1 — Apache Airflow DAG
+## Langkah 1: Apache Airflow DAG
 
 ### 1.1 Struktur DAG
 
@@ -179,7 +179,7 @@ Task ini bertanggung jawab untuk:
 
 ---
 
-## Langkah 2 — Manajemen Data di ClickHouse
+## Langkah 2: Manajemen Data di ClickHouse
 
 ### 2.1 Membuat Database & Tabel
 
@@ -190,7 +190,7 @@ DDL lengkap tersedia di `sql/ddl_orders.sql`. Tabel dibuat otomatis oleh task `l
 CREATE DATABASE IF NOT EXISTS orders_db;
 ```
 
-**Tabel `orders`** — menyimpan data per transaksi:
+**Tabel `orders`** menyimpan data per transaksi:
 ```sql
 CREATE TABLE IF NOT EXISTS orders_db.orders (
     order_id                UInt32,
@@ -299,7 +299,7 @@ exit
 
 ---
 
-## Langkah 3 — Visualisasi & Questions di Metabase
+## Langkah 3: Visualisasi & Questions di Metabase
 
 ### 3.1 Koneksi Metabase ke ClickHouse
 
@@ -320,7 +320,7 @@ exit
 | Username | `admin` |
 | Password | `rahasia` |
 
-5. Klik **Save** — Metabase akan melakukan tes koneksi secara otomatis
+5. Klik **Save**, Metabase akan melakukan tes koneksi secara otomatis
 6. Jika koneksi berhasil, database `orders_db` akan muncul di daftar sumber data
 
 > <img width="500" height="106" alt="image" src="https://github.com/user-attachments/assets/76504c08-d769-43a9-a8bb-8e282dca325b" />
@@ -687,7 +687,7 @@ ORDER BY total_items DESC;
 > <img height="300" alt="image" src="https://github.com/user-attachments/assets/9f019ea6-d0d0-4a2c-b4f0-43abf635a553" />
 
 
-## Langkah 4 — Membangun Dashboard di Metabase
+## Langkah 4: Membangun Dashboard di Metabase
 
 ### 4.1 Membuat Dashboard
 
@@ -714,10 +714,10 @@ Selama pengerjaan project ini, terdapat kendala utama yang ditemui pada bagian *
 
 Pada awalnya, task `load_to_clickhouse` selalu gagal dengan berbagai error, antara lain:
 
-1. **`Connection refused` ke ClickHouse** — Airflow mencoba konek ke ClickHouse sebelum container-nya selesai startup.
-2. **`Code: 16. DB::Exception: No such column`** — Nama kolom yang di-INSERT tidak cocok persis dengan definisi tabel (urutan atau typo nama kolom).
-3. **`TypeError: can't convert ... to datetime`** — Kolom `ingested_at` yang bertipe `DateTime` di ClickHouse tidak menerima string, harus berupa objek `datetime` Python.
-4. **Data terduplikat** — Karena pipeline dijadwalkan setiap 10 menit dan file JSON tidak langsung dihapus saat terjadi error, data bisa ter-insert lebih dari sekali.
+1. **`Connection refused` ke ClickHouse**, Airflow mencoba konek ke ClickHouse sebelum container-nya selesai startup.
+2. **`Code: 16. DB::Exception: No such column`**, Nama kolom yang di-INSERT tidak cocok persis dengan definisi tabel (urutan atau typo nama kolom).
+3. **`TypeError: can't convert ... to datetime`**, Kolom `ingested_at` yang bertipe `DateTime` di ClickHouse tidak menerima string, harus berupa objek `datetime` Python.
+4. **Data terduplikat**, Karena pipeline dijadwalkan setiap 10 menit dan file JSON tidak langsung dihapus saat terjadi error, data bisa ter-insert lebih dari sekali.
 
 ### Solusi yang Diterapkan
 
@@ -754,4 +754,4 @@ order_rows.append((..., now))  # bukan str(now)
 | Safa Mashita | 5025241022 | Merancang dan mengimplementasikan Apache Airflow DAG (`orders_pipeline.py`), mengembangkan logika fetch & preprocessing data di `fetch_orders.py`, serta menyusun DDL schema ClickHouse dan memastikan pipeline berjalan end-to-end | 50% |
 | Devina Balqis Aurora | 5025241034 | Mengimplementasikan `load_to_clickhouse.py` untuk proses ETL ke ClickHouse, membuat seluruh query analitik di Metabase, membangun dan menyusun layout Dashboard Metabase, serta mendokumentasikan README | 50% |
 
-> **Kelompok 12 — MCI2026**
+> **Kelompok 12 Oprec Admin MCI2026**
