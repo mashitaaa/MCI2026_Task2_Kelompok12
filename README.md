@@ -29,8 +29,6 @@ Proyek ini merupakan implementasi **Pipeline Orchestration & Data Visualization*
 | Sumber Data | REST API `http://96.9.212.102:8000/orders` |
 | Containerization | Docker & Docker Compose |
 
-Dataset yang digunakan berformat Instacart-style orders, berisi data transaksi belanja online beserta detail produk yang dipesan oleh masing-masing pengguna.
-
 ---
 
 ## Arsitektur Pipeline
@@ -722,11 +720,7 @@ Pada awalnya, task `load_to_clickhouse` selalu gagal dengan berbagai error, anta
 
 ### Solusi yang Diterapkan
 
-**1. Dependency antar container di `docker-compose.yml`**
-
-Ditambahkan `depends_on` pada service Airflow agar menunggu ClickHouse siap sebelum mulai. Selain itu, pada kode Python, koneksi ke ClickHouse dibungkus dengan `try/except` sehingga error koneksi tercatat di log dan task langsung gagal dengan pesan yang jelas.
-
-**2. Pencocokan nama kolom secara eksplisit**
+**1. Pencocokan nama kolom secara eksplisit**
 
 Pada perintah `INSERT`, nama kolom disebutkan secara eksplisit satu per satu — tidak menggunakan wildcard. Urutan tuple data yang di-insert juga disesuaikan persis dengan urutan kolom yang dideklarasikan.
 
@@ -740,7 +734,7 @@ client.execute(
 )
 ```
 
-**3. Passing objek `datetime` langsung**
+**2. Passing objek `datetime` langsung**
 
 Kolom `ingested_at` diisi menggunakan `datetime.now()` yang di-assign sekali di awal fungsi dan diteruskan ke setiap row, bukan sebagai string.
 
@@ -749,22 +743,6 @@ now = datetime.now()
 # ...
 order_rows.append((..., now))  # bukan str(now)
 ```
-
-**4. Pola TRUNCATE sebelum INSERT**
-
-Untuk menghindari duplikasi, diterapkan pola **TRUNCATE → INSERT** setiap kali pipeline berjalan. Ini memastikan tabel selalu berisi data segar dari run terakhir.
-
-```python
-client.execute(f"TRUNCATE TABLE {CLICKHOUSE_DB}.orders")
-client.execute(f"TRUNCATE TABLE {CLICKHOUSE_DB}.order_products")
-# baru INSERT...
-```
-
-**5. Hapus file JSON setelah berhasil**
-
-File JSON di `data_lake` hanya dihapus setelah proses INSERT berhasil sepenuhnya, sehingga jika terjadi error di tengah proses, file tetap ada dan bisa diproses ulang di run berikutnya.
-
----
 
 ---
 
